@@ -27,76 +27,77 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="login-container">
-    <h1>登录</h1>
-    <form @submit.prevent="handleLogin">
-      <div class="form-group">
-        <label for="username">用户名</label>
-        <input
-          id="username"
-          v-model="username"
-          type="text"
-          placeholder="请输入用户名"
-        />
-      </div>
-      <div class="form-group">
-        <label for="password">密码</label>
-        <input
-          id="password"
-          v-model="password"
-          type="password"
-          placeholder="请输入密码"
-        />
-      </div>
-      <button type="submit">登录</button>
-    </form>
+  <div class="login-bg">
+    <el-card class="login-card">
+      <h1 style="text-align:center;">登录</h1>
+      <el-form @submit.prevent="handleLogin" :model="{ username, password }" label-width="80px">
+        <el-form-item label="用户名">
+          <el-input v-model="username" placeholder="请输入用户名" />
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input v-model="password" type="password" placeholder="请输入密码" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" native-type="submit" style="width:100%;">登录</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
   </div>
 </template>
 
 <style scoped>
-.login-container {
+.login-bg {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%); 渐变的形式*/
+  background: url("/photos/login.jpeg") no-repeat center center;
+  background-size: cover;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Arial', sans-serif;
+}
+
+.login-card {
   max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 32px 32px 24px 32px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  background: rgba(255, 255, 255, 0.3); /* 透明度调低 */
+  border: none;
+  backdrop-filter: blur(8px); /* 毛玻璃效果，可选 */
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  font-weight: 600;
+  color: #409eff;
+  letter-spacing: 2px;
 }
 
-.form-group {
-  margin-bottom: 15px;
+.el-form-item {
+  margin-bottom: 28px;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+.el-input {
+  height: 44px;
+  font-size: 16px;
 }
 
-input {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.el-button {
+  height: 44px;
+  font-size: 18px;
+  border-radius: 8px;
+  letter-spacing: 2px;
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
+.el-card {
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
 }
 </style>
