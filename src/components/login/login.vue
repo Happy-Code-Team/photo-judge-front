@@ -1,15 +1,27 @@
 <script setup>
 import {ref} from 'vue';
+import axios from '@/utils/axios';
 
 const username = ref('');
 const password = ref('');
 
-const handleLogin = () => {
+const handleLogin = async () => {
   if (username.value && password.value) {
-    alert("登录成功");
-    // 在这里添加登录逻辑，例如调用 API
+    try {
+      const response = await axios.post('/login', {
+        userName: username.value,
+        password: password.value
+      });
+      if (response.data.code === 200) {
+        alert('登录成功');
+      } else {
+        alert('登录失败：' + (response.data.message || '未知错误'));
+      }
+    } catch (error) {
+      alert('请求出错：' + (error.response?.data?.message || error.message));
+    }
   } else {
-    alert("请输入用户名和密码");
+    alert('请输入用户名和密码');
   }
 };
 </script>

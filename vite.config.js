@@ -6,6 +6,8 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // 设置前端服务端口
+  server: {port: 3000},
   plugins: [
     vue(),
     vueDevTools(),
