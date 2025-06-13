@@ -7,6 +7,6 @@
 ## 启动
 
 ```bash
-npm install
+npm install --registry=https://registry.npmmirror.com
 npm run dev
 ```

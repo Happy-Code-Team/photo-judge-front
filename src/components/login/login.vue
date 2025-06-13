@@ -1,6 +1,8 @@
 <script setup>
 import {ref} from 'vue';
 import axios from '@/utils/axios';
+import { UserFilled, Lock } from '@element-plus/icons-vue'
+
 
 const username = ref('');
 const password = ref('');
@@ -27,58 +29,52 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="login-bg">
-    <el-card class="login-card">
-      <h1 style="text-align:center;">登录</h1>
-      <el-form @submit.prevent="handleLogin" :model="{ username, password }" label-width="80px">
-        <el-form-item label="用户名">
-          <el-input v-model="username" placeholder="请输入用户名" />
+  <div class="login-bg fix">
+    <div class="login-card r">
+      <el-form class="login-form" @submit.prevent="handleLogin" :model="{ username, password }" size="large">
+        <el-form-item label="">
+          <el-input v-model="username" placeholder="输入用户名">
+            <template #prefix>
+              <el-icon><UserFilled /></el-icon>
+            </template>
+          </el-input>
         </el-form-item>
-        <el-form-item label="密码">
-          <el-input v-model="password" type="password" placeholder="请输入密码" />
+        <el-form-item label="">
+          <el-input v-model="password" type="password" placeholder="输入密码">
+            <template #prefix>
+              <el-icon><Lock /></el-icon>
+            </template>
+          </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" native-type="submit" style="width:100%;">登录</el-button>
+          <el-button type="primary" plain round native-type="submit" style="width:100%;">登录</el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .login-bg {
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /*background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%); 渐变的形式*/
-  background: url("/photos/login.jpeg") no-repeat center center;
+  background: url('@/assets/images/login.jpeg') no-repeat center center;
   background-size: cover;
-}
-
-body {
-  min-height: 100vh;
-  margin: 0;
-  font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Arial', sans-serif;
+  overflow: hidden;
 }
 
 .login-card {
   max-width: 400px;
   padding: 32px 32px 24px 32px;
-  border-radius: 18px;
+  /* border-radius: 18px; */
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
-  background: rgba(255, 255, 255, 0.3); /* 透明度调低 */
+  background: rgba(255, 255, 255, 0.2); /* 透明度调低 */
   border: none;
   backdrop-filter: blur(8px); /* 毛玻璃效果，可选 */
+  height: 100vh;
 }
-
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-weight: 600;
-  color: #409eff;
-  letter-spacing: 2px;
+.login-form{
+  margin-top: 100px;
 }
 
 .el-form-item {
@@ -95,9 +91,5 @@ h1 {
   font-size: 18px;
   border-radius: 8px;
   letter-spacing: 2px;
-}
-
-.el-card {
-  border: none;
 }
 </style>
