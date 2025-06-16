@@ -1,10 +1,10 @@
 <script setup>
-import login from './components/login/login.vue'
+// import login from './components/login/login.vue' // 注释掉这行
 </script>
 
 <template>
   <main>
-    <login />
+    <router-view />
   </main>
 </template>
 
