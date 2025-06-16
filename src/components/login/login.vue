@@ -1,8 +1,10 @@
 <script setup>
 import {ref} from 'vue';
 import axios from '@/utils/axios';
+import {useRouter} from 'vue-router';
 import { UserFilled, Lock } from '@element-plus/icons-vue'
 
+const router = useRouter();
 
 const username = ref('');
 const password = ref('');
@@ -16,6 +18,7 @@ const handleLogin = async () => {
       });
       if (response.data.code === 200) {
         alert('登录成功');
+        await router.push('/home');
       } else {
         alert('登录失败：' + (response.data.message || '未知错误'));
       }
@@ -25,6 +28,10 @@ const handleLogin = async () => {
   } else {
     alert('请输入用户名和密码');
   }
+};
+
+const goToRegister = () => {
+ router.push('/register');
 };
 </script>
 
@@ -47,7 +54,8 @@ const handleLogin = async () => {
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" plain round native-type="submit" style="width:100%;">登录</el-button>
+          <el-button type="primary" plain round native-type="submit" style="width:50%;">登录</el-button>
+          <el-button type="primary" plain round @click="goToRegister" style="width: 50%;">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
