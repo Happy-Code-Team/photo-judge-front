@@ -1,5 +1,5 @@
 <template>
-  <div class="register-container">
+  <div class="register-container register-bg">
     <el-card class="register-card" shadow="always">
       <template #header>
         <div class="header">
@@ -116,6 +116,9 @@ async function checkUsernameExists(username) {
 
 .register-card {
   width: 400px;
+  background: rgba(255, 255, 255, 0.3); /* 半透明白色背景 */
+  box-shadow: none; /* 去除阴影，如需保留可调整透明度 */
+  backdrop-filter: blur(8px); /* 可选：增加毛玻璃效果 */
 }
 
 .header {
@@ -125,5 +128,13 @@ async function checkUsernameExists(username) {
   font-size: 24px;
   font-weight: bold;
   color: #333;
+}
+
+.register-bg {
+  height: 100vh;
+  width: 100vw;
+  background: url('@/assets/images/register.jpg') no-repeat center center;
+  background-size: cover;
+  overflow: hidden;
 }
 </style>
