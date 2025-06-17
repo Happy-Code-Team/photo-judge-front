@@ -53,9 +53,9 @@ const goToRegister = () => {
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" plain round native-type="submit" style="width:50%;">登录</el-button>
-          <el-button type="primary" plain round @click="goToRegister" style="width: 50%;">注册</el-button>
+        <el-form-item class="button-group">
+          <el-button type="primary" plain round native-type="submit">登录</el-button>
+          <el-button type="primary" plain round @click="goToRegister">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -66,7 +66,7 @@ const goToRegister = () => {
 .login-bg {
   height: 100vh;
   width: 100vw;
-  background: url('@/assets/images/login.jpeg') no-repeat center center;
+  background: url('@/assets/images/login.jpg') no-repeat center center;
   background-size: cover;
   overflow: hidden;
 }
@@ -99,5 +99,18 @@ const goToRegister = () => {
   font-size: 18px;
   border-radius: 8px;
   letter-spacing: 2px;
+}
+
+.button-group {
+  display: flex;
+  gap: 16px; /* 按钮之间的间距 */
+  align-items: center;
+  margin-bottom: 0;
+  width: 100%; /* 确保容器占据可用宽度 */
+}
+
+/* 针对 button-group 内部的按钮 */
+.button-group el-button {
+  flex-grow: 1; /* 让按钮平均占据可用空间 */
 }
 </style>
