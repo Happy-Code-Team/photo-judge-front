@@ -28,6 +28,7 @@
 <script setup>
 import { reactive, ref } from 'vue';
 import axios from '@/utils/axios';
+import ApiResponse from "@/components/response/ApiResponse.js";
 
 const registerFormRef = ref(null);
 
@@ -45,13 +46,14 @@ const rules = reactive({
       validator: async (rule, value, callback) => {
         try {
           // 调用接口判断用户名是否存在
-          const response = await checkUsernameExists(value); // 替换为你的接口调用
+          const response = await checkUsernameExists(value);
           if (response.data.code !== 200) {
             callback(new Error(response.data.message));
           } else {
             callback();
           }
         } catch (error) {
+          console.error("Error checking username:", error);
           callback(new Error('验证失败，请稍后重试'));
         }
       },
@@ -77,7 +79,7 @@ const rules = reactive({
   ]
 });
 
-const submitForm = (formName) => {
+const submitForm = () => {
   registerFormRef.value.validate((valid) => {
     if (valid) {
       alert('注册成功!');
@@ -88,18 +90,17 @@ const submitForm = (formName) => {
   });
 };
 
-const resetForm = (formName) => {
+const resetForm = () => {
   registerFormRef.value.resetFields();
 };
 
-async function  checkUsernameExists(username) {
+async function checkUsernameExists(username) {
   try {
-    const response = await axios.get(`/user/checkUsername?username=${username}`);
-    // 假设接口返回的数据格式为 { exists: true/false }
+    const response = await axios.get(`/user/checkUsername?username=${encodeURIComponent(username)}`);
     return response;
   } catch (error) {
     console.error("Error checking username:", error);
-    return { exists: false }; // 发生错误时，可以返回一个默认值，例如 { exists: false }
+    return new ApiResponse(500, "调用校验用户名服务失败");
   }
 }
 </script>
