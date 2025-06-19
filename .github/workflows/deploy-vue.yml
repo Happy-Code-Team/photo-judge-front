@@ -11,7 +11,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: [self-hosted, label-photo] # 确保这里与GitHub页面显示的标签完全一致
+    runs-on: self-hosted # 确保这里与GitHub页面显示的标签完全一致
 
     steps:
       # 第一步：获取仓库代码
