@@ -11,17 +11,14 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted # 明确列出所有相关标签
+    runs-on: [self-hosted, label-photo] # 确保这里与GitHub页面显示的标签完全一致
 
     steps:
       # 第一步：获取仓库代码
-      # 使用 actions/checkout@v4 Action 将你的 GitHub 仓库代码克隆到运行器上
       - name: Checkout Code
         uses: actions/checkout@v4
 
       # 第二步：设置 Node.js 环境并启用 npm 缓存
-      # 使用 actions/setup-node@v4 Action 设置 Node.js 环境
-      # with.cache: npm 会自动配置 npm 依赖的缓存，减少重复下载
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -29,7 +26,6 @@ jobs:
           cache: 'npm' # 如果你使用 yarn，改为 'yarn'
 
       # 第三步：构建 Docker 镜像
-      # 使用项目根目录下的 Dockerfile 构建 Docker 镜像
       - name: Build Docker Image
         run: |
           # 定义本地镜像名称，确保不会与你的 Spring Boot 镜像冲突
@@ -38,8 +34,6 @@ jobs:
           docker build -t ${FRONTEND_IMAGE_NAME}:${IMAGE_TAG} . # . 表示在当前目录查找 Dockerfile
 
       # 第四步：停止并移除旧容器
-      # 停止并删除名为 vue-frontend-container 的旧 Docker 容器，确保每次部署都是新的实例
-      # || true 确保即使命令失败（例如容器不存在），工作流也能继续
       - name: Stop and remove old container
         run: |
           CONTAINER_NAME="vue-frontend-container" # 定义一个独一无二的容器名称
@@ -47,10 +41,7 @@ jobs:
           docker rm ${CONTAINER_NAME} || true
 
       # 第五步：启动新的 Docker 容器
-      # 以后台模式 (-d) 启动新的容器
-      # --name 为容器指定名称
-      # -p 3000:80 将宿主机 3000 端口映射到容器内部 Nginx 监听的 80 端口
-      # --add-host host.docker.internal:host-gateway 允许容器通过 host.docker.internal 访问宿主机 IP
+      # 请仔细重新输入这部分，确保每个反斜杠 '\' 后面都没有空格！
       - name: Run Docker container
         run: |
           FRONTEND_IMAGE_NAME="vue-frontend-app"
@@ -60,13 +51,12 @@ jobs:
           INTERNAL_PORT="80"   # 容器内部 Nginx 监听的端口 (Dockerfile中 EXPOSE 的端口)
 
           docker run -d \
-            --name ${CONTAINER_NAME} \
-            -p ${EXTERNAL_PORT}:${INTERNAL_PORT} \
-            --add-host host.docker.internal:host-gateway \ # <-- 关键：允许容器访问宿主机
-            ${FRONTEND_IMAGE_NAME}:${IMAGE_TAG}
+          --name ${CONTAINER_NAME} \
+          -p ${EXTERNAL_PORT}:${INTERNAL_PORT} \
+          --add-host host.docker.internal:host-gateway \
+          ${FRONTEND_IMAGE_NAME}:${IMAGE_TAG}
 
       # 第六步：清理旧的悬挂 Docker 镜像
-      # 这个步骤会删除服务器上所有没有被任何标签引用的旧 Docker 镜像，释放磁盘空间
       - name: Clean up old dangling Docker images
         run: |
           docker image prune -f # -f 强制执行，无需确认
