@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:8089/photo', // 根据你的后端地址修改
+  // baseURL: 'http://localhost:8089/photo', // 根据你的后端地址修改
+  baseURL: '/photo',
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json'
