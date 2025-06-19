@@ -11,7 +11,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: [self-hosted, label-photo] # 指定使用你配置的自托管运行器
+    runs-on: [self-hosted, Linux, X64, label-photo] # 明确列出所有相关标签
 
     steps:
       # 第一步：获取仓库代码
