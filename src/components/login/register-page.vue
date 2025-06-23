@@ -7,24 +7,26 @@
         </div>
       </template>
       <el-form :model="registerForm" :rules="rules" ref="registerFormRef" label-width="100px">
-        <el-form-item label="用户编码" prop="userCode">
+        <el-form-item label="账号" prop="userCode">
           <el-input v-model="registerForm.userCode" placeholder="请输入用户名, 数字或字符" @dblclick="selectAll"></el-input>
         </el-form-item>
 
-        <el-form-item label="用户名" prop="userName">
+        <el-form-item label="昵称" prop="userName">
           <el-input v-model="registerForm.userName" placeholder="请输入用户名" @dblclick="selectAll">
+            <template #append>
+              <el-button @click="generateRandomUsername" type="primary" plain>
+                <font-awesome-icon icon="dice" />
+              </el-button>
+            </template>
           </el-input>
-          <el-button @click="generateRandomUsername">
-            <font-awesome-icon icon="dice" />
-          </el-button>
         </el-form-item>
 
         <el-form-item label="密码" prop="userPassword">
-          <el-input type="password" v-model="registerForm.userPassword" placeholder="请输入密码" @dblclick="selectAll"></el-input>
+          <el-input type="password" v-model="registerForm.userPassword" placeholder="请输入密码" show-password @dblclick="selectAll"></el-input>
         </el-form-item>
 
         <el-form-item label="确认密码" prop="confirmuserPassword">
-          <el-input type="password" v-model="registerForm.confirmuserPassword" placeholder="请再次输入密码" @dblclick="selectAll"></el-input>
+          <el-input type="password" v-model="registerForm.confirmuserPassword" placeholder="请再次输入密码" show-password @dblclick="selectAll"></el-input>
         </el-form-item>
 
         <el-form-item>
