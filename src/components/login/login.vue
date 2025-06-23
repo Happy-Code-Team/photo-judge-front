@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import {reactive, ref} from 'vue';
+import {reactive} from 'vue';
 import axios from '@/utils/axios';
 import {useRouter} from 'vue-router';
 import { UserFilled, Lock } from '@element-plus/icons-vue'
