@@ -1,53 +1,16 @@
-<script setup>
-import {ref} from 'vue';
-import axios from '@/utils/axios';
-import {useRouter} from 'vue-router';
-import { UserFilled, Lock } from '@element-plus/icons-vue'
-
-const router = useRouter();
-
-const username = ref('');
-const password = ref('');
-
-const handleLogin = async () => {
-  if (username.value && password.value) {
-    try {
-      const response = await axios.post('/login', {
-        userName: username.value,
-        password: password.value
-      });
-      if (response.data.code === 200) {
-        alert('登录成功');
-        await router.push('/home');
-      } else {
-        alert('登录失败：' + (response.data.message || '未知错误'));
-      }
-    } catch (error) {
-      alert('请求出错：' + (error.response?.data?.message || error.message));
-    }
-  } else {
-    alert('请输入用户名和密码');
-  }
-};
-
-const goToRegister = () => {
- router.push('/register');
-};
-</script>
-
 <template>
   <div class="login-bg fix">
     <div class="login-card r">
-      <el-form class="login-form" @submit.prevent="handleLogin" :model="{ username, password }" size="large">
+      <el-form class="login-form" @submit.prevent="handleLogin" :model="loginForm" size="large">
         <el-form-item label="">
-          <el-input v-model="username" placeholder="输入用户名">
+          <el-input v-model="loginForm.userCode" placeholder="输入用户账号" @dblclick="CommonUtil.selectAll($event)">
             <template #prefix>
               <el-icon><UserFilled /></el-icon>
             </template>
           </el-input>
         </el-form-item>
         <el-form-item label="">
-          <el-input v-model="password" type="password" placeholder="输入密码">
+          <el-input v-model="loginForm.userPassword" type="password" placeholder="输入密码">
             <template #prefix>
               <el-icon><Lock /></el-icon>
             </template>
@@ -61,6 +24,44 @@ const goToRegister = () => {
     </div>
   </div>
 </template>
+
+<script setup>
+import {reactive, ref} from 'vue';
+import axios from '@/utils/axios';
+import {useRouter} from 'vue-router';
+import { UserFilled, Lock } from '@element-plus/icons-vue'
+import { CommonUtil } from '@/utils/CommonUtil.js';
+
+const router = useRouter();
+
+const loginForm  = reactive({
+  userCode: '',
+  userPassword: ''
+})
+
+
+const handleLogin = async () => {
+  if (!loginForm.userCode || !loginForm.userPassword) {
+    alert('请输入用户名和密码');
+    return;
+  }
+  try {
+    const response = await axios.post('/user/login', loginForm);
+    if (response.data.code === 200) {
+      alert('登录成功');
+      await router.push('/home');
+    } else {
+      alert('登录失败：' + (response.data.message || '未知错误'));
+    }
+  } catch (error) {
+    alert('请求出错：' + (error.response?.data?.message || error.message));
+  }
+};
+
+const goToRegister = () => {
+ router.push('/register');
+};
+</script>
 
 <style scoped>
 .login-bg {
@@ -112,5 +113,12 @@ const goToRegister = () => {
 /* 针对 button-group 内部的按钮 */
 .button-group el-button {
   flex-grow: 1; /* 让按钮平均占据可用空间 */
+}
+
+/* 选中时高亮颜色 */
+:deep(input::selection),
+:deep(textarea::selection) {
+  background: #ffe066;
+  color: #333;
 }
 </style>
