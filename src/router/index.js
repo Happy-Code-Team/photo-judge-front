@@ -11,7 +11,7 @@ const routes = [
   },
   {
     path: "/register",
-    component: () => import("@/components/login/registerPage.vue"),
+    component: () => import("@/components/login/register-page.vue"),
   },
   {
     path: '/:pathMatch(.*)*',
